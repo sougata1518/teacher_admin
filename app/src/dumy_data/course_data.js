@@ -145,3 +145,113 @@ export const courses = [
     ]
   }
 ];
+
+
+export const search_courses = async (query) => {
+  console.log("Mock API called with:", query);
+
+  await new Promise((res) => setTimeout(res, 500));
+
+  // 🔧 base templates
+  const courseNames = [
+    "React for Beginners",
+    "Advanced React",
+    "Spring Boot Mastery",
+    "Java Basics",
+    "Java Advanced Concepts",
+    "Node.js Complete Guide",
+    "Full Stack Web Development",
+    "Python for Beginners",
+    "Data Structures in Java",
+    "Machine Learning Basics",
+    "Deep Learning with Python",
+    "Docker & Kubernetes",
+    "System Design Fundamentals",
+    "SQL & Database Design",
+    "React Native Mobile Apps",
+    "Angular Complete Guide",
+    "C++ for Beginners",
+    "Operating Systems",
+    "Computer Networks",
+    "MongoDB & NoSQL",
+    "GraphQL with React",
+    "TypeScript Mastery",
+  ];
+
+  // 🔧 helper to generate questions
+  const generateQuestions = (index) => [
+    { id: `q${index}-1`, question: "What is the core concept?" },
+    { id: `q${index}-2`, question: "Explain main features?" },
+    { id: `q${index}-3`, question: "Where is it used?" },
+    { id: `q${index}-4`, question: "Advantages?" },
+  ];
+
+  // 🔧 generate courses
+  const courses = courseNames.map((name, index) => ({
+    id: String(index + 1),
+    name,
+    description: `${name} - complete course`,
+    level: (index % 3) + 1, // 1,2,3
+    rating: (4 + Math.random()).toFixed(1), // random 4.0 - 5.0
+    videoFilePath: index % 2 === 0 ? `video${index + 1}.mp4` : "",
+    totalEnrolled: Math.floor(Math.random() * 1500) + 100,
+    timeStamps: ["00:00", "05:00", "10:00"],
+    questions: generateQuestions(index + 1),
+  }));
+
+  // 🔍 filter
+  const filtered = courses.filter((course) =>
+    `${course.name} ${course.description}`
+      .toLowerCase()
+      .includes(query.toLowerCase())
+  );
+
+  return {
+    courseDto: filtered,
+    pageCount: Math.ceil(filtered.length / 6) || 1, // simulate pages
+  };
+};
+
+export const get_recommended_courses = async (query = "") => {
+  console.log("Mock API called:", query);
+
+  // simulate network delay
+  await new Promise((res) => setTimeout(res, 400));
+
+  const courses = [
+    { id: 1, name: "Data Structures Basics", level: 1, rating: 4.5 },
+    { id: 2, name: "Database Management System", level: 2, rating: 4.2 },
+    { id: 3, name: "React for Beginners", level: 1, rating: 4.8 },
+    { id: 4, name: "Advanced React Patterns", level: 3, rating: 4.7 },
+    { id: 5, name: "Spring Boot Mastery", level: 2, rating: 4.6 },
+    { id: 6, name: "Java Programming Essentials", level: 1, rating: 4.3 },
+    { id: 7, name: "Java Advanced Concepts", level: 3, rating: 4.6 },
+    { id: 8, name: "Node.js Backend Development", level: 2, rating: 4.4 },
+    { id: 9, name: "Full Stack Web Development", level: 3, rating: 4.9 },
+    { id: 10, name: "Python for Beginners", level: 1, rating: 4.5 },
+    { id: 11, name: "Machine Learning Basics", level: 2, rating: 4.3 },
+    { id: 12, name: "Deep Learning with Python", level: 3, rating: 4.7 },
+    { id: 13, name: "Docker & Kubernetes Basics", level: 2, rating: 4.4 },
+    { id: 14, name: "System Design Fundamentals", level: 3, rating: 4.8 },
+    { id: 15, name: "SQL Mastery Course", level: 1, rating: 4.2 },
+    { id: 16, name: "MongoDB Complete Guide", level: 2, rating: 4.3 },
+    { id: 17, name: "TypeScript in Depth", level: 2, rating: 4.6 },
+    { id: 18, name: "C++ Programming Basics", level: 1, rating: 4.1 },
+    { id: 19, name: "Operating Systems Concepts", level: 2, rating: 4.4 },
+    { id: 20, name: "Computer Networks Explained", level: 2, rating: 4.5 },
+    { id: 21, name: "GraphQL with React", level: 3, rating: 4.7 },
+    { id: 22, name: "AWS Cloud Fundamentals", level: 2, rating: 4.6 },
+  ];
+
+  // 🔍 optional search filter (like backend)
+  const filtered = query
+    ? courses.filter((c) =>
+        c.name.toLowerCase().includes(query.toLowerCase())
+      )
+    : courses;
+
+  // 🔥 sort by rating (recommended logic)
+  const sorted = filtered.sort((a, b) => b.rating - a.rating);
+
+  return sorted;
+};

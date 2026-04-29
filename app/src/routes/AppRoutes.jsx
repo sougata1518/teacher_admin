@@ -4,7 +4,8 @@ import TeacherLogin from "../admin/Admin_Register/login"
 import PrivateRoute from "./PrivateRoute"
 import Course from "../admin/Course/Course"
 
-import Dashboard from "../user/Home/Dashboard"
+
+
 
 const AppRoutes = () => {
     return (
